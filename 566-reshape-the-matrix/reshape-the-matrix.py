@@ -10,7 +10,6 @@ class Solution:
         for r_item in range(rows):
             for c_item in range(cols):
                 index = r_item*cols+c_item
-                print(f"{r_item = }, {c_item = }, {index//c = }, {index%c = }")
                 out_matrix[index//c][index%c] = mat[r_item][c_item]
 
         return out_matrix
