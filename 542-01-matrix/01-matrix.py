@@ -1,37 +1,46 @@
+from collections import deque
+
 class Solution:
     def updateMatrix(self, mat: List[List[int]]) -> List[List[int]]:
-        #Inititate Queue and visited locations
         rows, cols = len(mat), len(mat[0])
-        out = [[0]*cols for _ in range(rows)]
-        q = deque()
-        visited = set()
 
-        #Find locations with 0 and add them to the queue
+        out_matrix = [[0]*cols for _ in range(rows)]
+       
+        #Define directions to move
+        directions = [[-1,0], [1,0], [0,-1], [0, 1]]
+
+        visited = set()
+        queue = collections.deque()
+        #Find the locations of 0. 
         for r in range(rows):
             for c in range(cols):
                 if mat[r][c] == 0:
-                    q.append((r,c))
                     visited.add((r,c))
+                    queue.append((r,c))
+        print(visited)
 
-        #Go through the queue, visit the neighbours, and update the value
-        #Edge cases 1: Neighbour already visited
-        #Edge case 2: Boarder location. Hence, not neighbours
-        while q:
-            r, c = q.popleft()
-            neighbours = [[r-1,c], [r+1,c], [r,c-1], [r,c+1]]
-            
-            #print(f"0: {r = }, {c = }, {h = }")
-            for nr, nc in neighbours:
-                if (nr < 0 or nc < 0 or nr == rows or nc == cols
-                or (nr, nc) in visited):
+        #distance = 0
+        #Iterate through the dequqe:
+        while len(queue) > 0:
+            r, c = queue.popleft()
+            distance = out_matrix[r][c] + 1
+
+            #For every elemet, move in all 4 directions (valid only)
+            for dr, dc in directions:
+                dr += r
+                dc += c 
+
+                print(dr,dc)
+                #Check invalid and visited
+                if (((dr,dc) in visited) or not (0 <= dr < rows)
+                    or not (0 <= dc < cols)):
                     continue
+
+                out_matrix[dr][dc] = distance
                 
-                #print(f"{r = }, {c = }, {h = }")
-                out[nr][nc] = out[r][c] + 1
-                q.append((nr, nc))
-                visited.add((nr,nc))
+                visited.add((dr,dc))
+                queue.append((dr,dc))
 
-        return out
-
-
-
+        return out_matrix
+                
+            #Increase the distance from the nearest 0
