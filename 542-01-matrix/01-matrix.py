@@ -1,4 +1,4 @@
-from collections import deque
+#from collections import deque
 
 class Solution:
     def updateMatrix(self, mat: List[List[int]]) -> List[List[int]]:
@@ -10,7 +10,7 @@ class Solution:
         directions = [[-1,0], [1,0], [0,-1], [0, 1]]
 
         visited = set()
-        queue = collections.deque()
+        queue = deque()
         #Find the locations of 0. 
         for r in range(rows):
             for c in range(cols):
